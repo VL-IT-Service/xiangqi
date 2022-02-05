@@ -5,6 +5,30 @@ public class Rook extends GameToken{
 
     @Override
     public void checkMoveInDetail(int moveStartRow, int moveStartCol, int moveEndRow, int moveEndCol) throws MoveNotPossibleException {
+        // ceck that it is not a diagonal movement
+        boolean forward = moveStartRow - moveEndRow != 0;
+        boolean sideways = moveStartCol - moveEndCol != 0;
+
+        if (forward && sideways){
+            throw new MoveNotPossibleException("Rook can move in only one direction");
+        }
+
+        // check if the fields between Start and End are free
+        // end is already checked in GameToken.makemove()
+        boolean free = true;
+        if (forward){
+            for (int i = moveStartRow + 1; i< moveEndRow; ++i){
+                free = free && (board.getField(i,moveStartCol)==null);
+            }
+        } else {
+            for (int i = moveStartCol + 1; i< moveEndCol; ++i){
+                free = free && (board.getField(moveStartRow,i)==null);
+            }
+        }
+        if (!free){
+            throw new MoveNotPossibleException("Rook can't jump over other token.");
+        }
+
 
     }
 

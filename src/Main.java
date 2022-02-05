@@ -10,7 +10,7 @@ public class Main {
 
 
 
-        String move = "b0-a9";
+        String move = "a0-a1";
         System.out.println(move);
         try {
             gs.makeMove(move);
@@ -19,7 +19,7 @@ public class Main {
         }
         System.out.println(gs.getBoard().exportBoard());
 
-        move = "c0-e2";
+        move = "a1-d1";
         System.out.println(move);
         try {
             gs.makeMove(move);
@@ -27,6 +27,16 @@ public class Main {
             System.out.println(e.getMessage());
         }
         System.out.println(gs.getBoard().exportBoard());
+
+        move = "d1-d9";
+        System.out.println(move);
+        try {
+            gs.makeMove(move);
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+        System.out.println(gs.getBoard().exportBoard());
+
 
 
 
