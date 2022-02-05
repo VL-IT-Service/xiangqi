@@ -16,15 +16,19 @@ public class Rook extends GameToken{
         // check if the fields between Start and End are free
         // end is already checked in GameToken.makemove()
         boolean free = true;
+        int moveDirection;
         if (forward){
-            for (int i = moveStartRow + 1; i< moveEndRow; ++i){
+            moveDirection = Integer.signum(moveEndRow-moveStartRow);
+            for (int i = moveStartRow + moveDirection; moveDirection == 1 ? i < moveEndRow : i>moveEndRow ; i += moveDirection){
                 free = free && (board.getField(i,moveStartCol)==null);
             }
         } else {
-            for (int i = moveStartCol + 1; i< moveEndCol; ++i){
+            moveDirection = Integer.signum(moveEndCol-moveStartCol);
+            for (int i = moveStartCol + moveDirection; moveDirection == 1 ? i < moveEndCol : i>moveEndCol ; i += moveDirection){
                 free = free && (board.getField(moveStartRow,i)==null);
             }
         }
+
         if (!free){
             throw new MoveNotPossibleException("Rook can't jump over other token.");
         }

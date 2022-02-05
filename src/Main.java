@@ -28,7 +28,34 @@ public class Main {
         }
         System.out.println(gs.getBoard().exportBoard());
 
-        move = "d1-d9";
+        move = "d1-d8";
+        System.out.println(move);
+        try {
+            gs.makeMove(move);
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+        System.out.println(gs.getBoard().exportBoard());
+
+
+        move = "d8-e8";
+        System.out.println(move);
+        try {
+            gs.makeMove(move);
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+        System.out.println(gs.getBoard().exportBoard());
+
+        move = "e8-e9";
+        System.out.println(move);
+        try {
+            gs.makeMove(move);
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+        System.out.println(gs.getBoard().exportBoard());
+        move = "e9-e6";
         System.out.println(move);
         try {
             gs.makeMove(move);
