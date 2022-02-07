@@ -1,0 +1,50 @@
+digraph xiangqi {
+rankdir=TB
+
+node [shape="box"]
+
+Main [fillcolor="chocolate", style="filled"] 
+
+
+subgraph clusterServer{
+node [fillcolor="aliceblue", style="filled"]
+GameServer
+GameBoard
+GameStatus [label="GameStatus (Enum)"]
+Player [label="Player (Enum)"]
+}
+
+
+subgraph clusterExceptions{
+MoveNotPossibleExeption
+MoveFormatExeption
+}
+
+subgraph clusterToken {
+node [fillcolor="thistle", style="filled"]
+GameToken [label="GameToken (abstract)"]
+General -> GameToken [arrowhead="empty"] 
+Advisor -> GameToken [arrowhead="empty"]
+Cannon -> GameToken [arrowhead="empty"]
+Elephant -> GameToken [arrowhead="empty"]
+Horse -> GameToken [arrowhead="empty"]
+Rook -> GameToken [arrowhead="empty"]
+Soldier -> GameToken [arrowhead="empty"]
+}
+
+Main -> GameServer
+GameServer -> GameBoard
+GameBoard -> GameToken
+
+
+
+
+GameServer -> Player
+GameServer -> GameStatus
+GameServer -> MoveFormatExeption [style="dotted"]
+GameServer -> MoveNotPossibleExeption [style="dotted"]
+GameToken -> MoveNotPossibleExeption [style="dotted"]
+GameToken -> Player
+GameToken -> GameBoard
+
+}
