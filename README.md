@@ -1,9 +1,7 @@
-# xiangqi
-Xinagqi China Chess JAVA Data Model
+## xiangqi
+#Xinagqi China Chess in JAVA with Object-Oriented Data Model
 
 for rules refer to https://en.wikipedia.org/wiki/Xiangqi
-
-based on Hausaufgabenblatt 2 Abgabe: 25.02.2022
 
 Board is represented similar to FEN (Forsyth-Edwards-Notation) String
 
