@@ -27,11 +27,19 @@ public class GameServer {
         this.activePlayer = Player.RED;
     }
 
+    public GameServer(String fenString) {
+        this.board = new GameBoard();
+        this.board.importBoard(fenString);
+        this.gameStatus = GameStatus.OPEN;
+        this.activePlayer = Player.RED;
+    }
+
     public void toggleActivePlayer(){
        activePlayer =  ( activePlayer == Player.RED ) ? Player.BLACK : Player.RED;
     }
+
     public boolean checkMoveFormat(String move){
-            // check whether the move maches the pattern with RegEx
+            // check whether the move matches the pattern with RegEx
             // START Character a-i followed by Digit Minussign a-i Digit END
             // if this matches, the String has the right length and structure
             String patternString = "^[a-i]\\d-[a-i]\\d$";

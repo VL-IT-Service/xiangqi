@@ -143,6 +143,7 @@ public class GameBoard {
     }
     private void checkLegalEndPosition () throws MoveNotLegalException {
         // todo
+
     }
     public static int getMoveStartCol(String move){
         return Character.getNumericValue(move.charAt(0)) - Character.getNumericValue( 'a');
