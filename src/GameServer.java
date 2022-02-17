@@ -46,7 +46,7 @@ public class GameServer {
             // delegate move to the board
             this.board.makeMove(move);
         } else {
-            throw new MoveFormatException("Move had wrong format! Should be like 'a3-c4' ");
+            throw new MoveFormatExeption("Move had wrong format! Should be like 'a3-c4' ");
         }
         // return the new FenString from the board representing the new situation
         return this.board.exportBoard();
