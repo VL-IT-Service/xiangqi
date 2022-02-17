@@ -117,7 +117,7 @@ public class GameBoard {
 
     }
 
-    public void makeMove(String move) throws MoveNotPossibleException {
+    public void makeMove(String move) throws MoveNotLegalException, MoveNotPossibleException {
 
         // ask the Token to check if move is legal
         fields[getMoveStartRow(move)][getMoveStartCol(move)].makeMove(

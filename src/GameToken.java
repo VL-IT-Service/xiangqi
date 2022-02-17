@@ -12,18 +12,29 @@ public abstract class GameToken {
         return owner;
     }
 
-    public void makeMove(int moveStartRow, int moveStartCol, int moveEndRow, int moveEndCol) throws MoveNotPossibleException{
-        GameToken targetField = this.board.getField(moveEndRow,moveEndCol);
-        if(targetField != null && this.board.getField(moveStartRow,moveStartCol).getOwner() == targetField.getOwner()){
+    public void makeMove(int moveStartRow, int moveStartCol, int moveEndRow, int moveEndCol) throws MoveNotLegalException, MoveNotPossibleException{
+        GameToken targetToken = this.board.getField(moveEndRow,moveEndCol);
+
+        // is the target an enemmy or empty?
+        if(targetToken != null && this.board.getField(moveStartRow,moveStartCol).getOwner() == targetToken.getOwner()){
             throw new MoveNotPossibleException("Target field is blocked by your own token.");
         }
 
+        // check if the token can legally move to the target
         // Throws Exception if Move is Illegal
         this.checkMoveInDetail(moveStartRow, moveStartCol, moveEndRow, moveEndCol);
 
+
+        this.checkLegalEndPosition();
+
+        // Now everything is checked !!
         // move to the target field
         this.board.setField(moveStartRow,moveStartCol,null);
         this.board.setField(moveEndRow, moveEndCol, this);
+    }
+
+    private void checkLegalEndPosition () throws MoveNotLegalException {
+        // do nothing
     }
 
     public abstract void checkMoveInDetail(int moveStartRow, int moveStartCol, int moveEndRow, int moveEndCol) throws MoveNotPossibleException;

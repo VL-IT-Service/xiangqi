@@ -40,7 +40,7 @@ public class GameServer {
             return matcher.matches();
     }
 
-    public String makeMove(String move) throws MoveFormatExeption, MoveNotPossibleException{
+    public String makeMove(String move) throws MoveFormatExeption, MoveNotLegalException, MoveNotPossibleException{
         // Check if move has a legal format
         if(checkMoveFormat(move)){
             // delegate move to the board
