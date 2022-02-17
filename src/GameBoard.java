@@ -118,16 +118,32 @@ public class GameBoard {
     }
 
     public void makeMove(String move) throws MoveNotLegalException, MoveNotPossibleException {
+        int moveStartRow = getMoveStartRow(move);
+        int moveStartCol = getMoveStartCol(move);
+        int moveEndRow = getMoveEndRow(move);
+        int moveEndCol = getMoveEndCol(move);
 
+        GameToken movingToken = this.getField(moveStartRow,moveStartCol);
+        GameToken targetToken = this.getField(moveEndRow,moveEndCol);
+
+        // is the target an enemmy or empty?
+        if(targetToken != null && movingToken.getOwner() == targetToken.getOwner()){
+            throw new MoveNotPossibleException("Target field is blocked by your own token.");
+        }
         // ask the Token to check if move is legal
-        fields[getMoveStartRow(move)][getMoveStartCol(move)].makeMove(
-                getMoveStartRow(move)
-                ,getMoveStartCol(move)
-                ,getMoveEndRow(move)
-                ,getMoveEndCol(move)
-        );
-    }
+        movingToken.checkMoveInDetail(moveStartRow, moveStartCol, moveEndRow, moveEndCol);
 
+        this.checkLegalEndPosition();
+
+        // Now everything is checked !!
+        // move to the target field
+        this.setField(moveStartRow,moveStartCol,null);
+        this.setField(moveEndRow, moveEndCol, movingToken);
+
+    }
+    private void checkLegalEndPosition () throws MoveNotLegalException {
+        // todo
+    }
     public static int getMoveStartCol(String move){
         return Character.getNumericValue(move.charAt(0)) - Character.getNumericValue( 'a');
     }
