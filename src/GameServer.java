@@ -40,13 +40,13 @@ public class GameServer {
             return matcher.matches();
     }
 
-    public String makeMove(String move) throws MoveFormatExeption, MoveNotPossibleException{
+    public String makeMove(String move) throws MoveFormatException, MoveNotLegalException, MoveNotPossibleException{
         // Check if move has a legal format
         if(checkMoveFormat(move)){
             // delegate move to the board
             this.board.makeMove(move);
         } else {
-            throw new MoveFormatExeption("Move had wrong format! Should be like 'a3-c4' ");
+            throw new MoveFormatException("Move had wrong format! Should be like 'a3-c4' ");
         }
         // return the new FenString from the board representing the new situation
         return this.board.exportBoard();
