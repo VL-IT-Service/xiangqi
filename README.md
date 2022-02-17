@@ -1,4 +1,4 @@
-## xiangqi
+## Xiangqi
 Xiangqi China Chess in JAVA with Object-Oriented Data Model
 
 for rules refer to https://en.wikipedia.org/wiki/Xiangqi
