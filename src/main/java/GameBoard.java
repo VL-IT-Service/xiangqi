@@ -133,7 +133,7 @@ public class GameBoard {
         // ask the Token to check if move is legal
         movingToken.checkMoveInDetail(moveStartRow, moveStartCol, moveEndRow, moveEndCol);
 
-        this.checkLegalEndPosition();
+        this.checkLegalEndPosition(moveStartRow, moveStartCol, moveEndRow, moveEndCol);
 
         // Now everything is checked !!
         // move to the target field
@@ -141,10 +141,54 @@ public class GameBoard {
         this.setField(moveEndRow, moveEndCol, movingToken);
 
     }
-    private void checkLegalEndPosition () throws MoveNotLegalException {
-        // todo
+    private void checkLegalEndPosition (int moveStartRow, int moveStartCol, int moveEndRow, int moveEndCol) throws MoveNotLegalException {
+        // General's direct view to enemy general
+	GameToken general = getGeneral(fields[moveStartRow][moveStartCol].getOwner());
+	int directionToEnemy = (general.getOwner() == Player.RED) ? 1 : -1;
+        
+	int testCol = getCol(general);
+	int testRow = getRow(general) + directionToEnemy;
+        GameToken nextTokenInRow =null;
+        while ( 0 <= testRow && testRow <= 9 && nextTokenInRow == null  ){
+                nextTokenInRow= getField(testRow , testCol);
+                testRow += directionToEnemy;
+        }
+        if (nextTokenInRow != null && nextTokenInRow instanceof General){
+            throw new MoveNotLegalException("Enemy's General can see you.");
+        }
+
+	// todo
 
     }
+
+    private GameToken getGeneral(Player owner){
+
+	// General is in the palace, so no need to search all fields
+	GameToken general = null;
+	int palaceRowMin;
+        int palaceRowMax;
+        int palaceColMin = 3;
+        int palaceColMax = 5;
+
+        if (owner == Player.RED){
+            palaceRowMin = 1;
+            palaceRowMax = 3;
+        } else {
+            palaceRowMin = 7;
+            palaceRowMax = 9;
+        }
+        
+	for (int row = palaceRowMin; row <= palaceRowMax; row ++){
+		for (int col = palaceRowMin; col <= palaceColMax; col++){
+			if ( getField(row,col) instanceof General ){
+				general = getField(row,col);
+			} 
+		}
+	}
+	return general;
+
+    }
+
     public static int getMoveStartCol(String move){
         return Character.getNumericValue(move.charAt(0)) - Character.getNumericValue( 'a');
     }
@@ -166,6 +210,30 @@ public class GameBoard {
     }
     public void setField(int row, int col, GameToken tk){
        this.fields[row][col] = tk;
+    }
+
+    public int getRow(GameToken gt){
+	int answer;
+	for (int row =0; row < 10; row ++){
+		for (int col = 0; col < 9; col++){
+			if ( getField(row,col) == gt ){
+				answer = row ;
+			} 
+		}
+	}
+	return answer = 0;
+    }
+
+    public int getCol(GameToken gt){
+	int answer = 0;
+	for (int row =0; row < 10; row ++){
+		for (int col = 0; col < 9; col++){
+			if ( getField(row,col) == gt ){
+				answer = col ;
+			} 
+		}
+	}
+	return answer;
     }
 
 }
