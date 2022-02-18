@@ -39,4 +39,12 @@ public abstract class GameToken {
         return (this.getOwner() == Player.RED && row > 4) || (this.getOwner() == Player.BLACK && row < 5);
 
     }
+
+    public int getRow(){
+	return board.getRow(this);
+    }
+	
+    public int getCol(){
+	return board.getCol(this);
+    }
 }
