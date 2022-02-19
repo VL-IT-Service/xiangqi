@@ -59,4 +59,12 @@ public class GameServer {
         // return the new FenString from the board representing the new situation
         return this.board.exportBoard();
     }
+    
+    public void importBoard (String fenString){
+        this.board.import(fenString);
+    }
+    
+    public String exportBoard(){
+        this.board.export();
+    }
 }
