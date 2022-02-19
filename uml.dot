@@ -1,26 +1,34 @@
 digraph xiangqi {
-rankdir=TB
+rankdir=LR
 
 node [shape="box"]
 
 Main [fillcolor="chocolate", style="filled"] 
 
 
-subgraph clusterServer{
+subgraph Server{
+
 node [fillcolor="aliceblue", style="filled"]
+MoveFormatException [style="empty"]
+GameStatus [label="GameStatus (Enum)"]
 GameServer
 GameBoard
-GameStatus [label="GameStatus (Enum)"]
 Player [label="Player (Enum)"]
+
+GameTokenDoesNotBelongToPlayerException [style="empty"]
+
+
+GameServer -> MoveFormatException [style="dotted"]
+GameServer -> GameStatus
+GameServer -> Player
+GameBoard -> Player [style="dotted"] 
+GameServer -> GameBoard
+GameBoard -> GameTokenDoesNotBelongToPlayerException [style="dotted"]
+
+
 }
 
-
-subgraph clusterExceptions{
-MoveNotPossibleExeption
-MoveFormatException
-}
-
-subgraph clusterToken {
+subgraph Token {
 node [fillcolor="thistle", style="filled"]
 GameToken [label="GameToken (abstract)"]
 General -> GameToken [arrowhead="empty"] 
@@ -30,21 +38,21 @@ Elephant -> GameToken [arrowhead="empty"]
 Horse -> GameToken [arrowhead="empty"]
 Rook -> GameToken [arrowhead="empty"]
 Soldier -> GameToken [arrowhead="empty"]
+MoveNotPossibleException [style="empty"]
+GeneralUnprotectedException [style="empty"]
+GameToken -> MoveNotPossibleException [style="dotted"]
+GameToken -> GeneralUnprotectedException [style="dotted"]
+
 }
 
+
+
+
 Main -> GameServer
-GameServer -> GameBoard
 GameBoard -> GameToken
-
-
-
-
-GameServer -> Player
-GameServer -> GameStatus
-GameServer -> MoveFormatException [style="dotted"]
-GameServer -> MoveNotPossibleExeption [style="dotted"]
-GameToken -> MoveNotPossibleExeption [style="dotted"]
-GameToken -> Player
 GameToken -> GameBoard
+GameToken -> Player
+
+
 
 }
