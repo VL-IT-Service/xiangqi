@@ -27,6 +27,8 @@ public class Horse extends GameToken{
 
     }
 
+
+
     public String toString(){
         if(this.getOwner() == Player.BLACK  ) {
             return "h";

@@ -45,6 +45,8 @@ public class Cannon extends GameToken{
 
     }
 
+
+
     public String toString(){
         if(this.getOwner() == Player.BLACK  ) {
             return "c";

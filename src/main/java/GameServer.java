@@ -48,11 +48,11 @@ public class GameServer {
             return matcher.matches();
     }
 
-    public String makeMove(String move) throws MoveFormatException, MoveNotLegalException, MoveNotPossibleException{
+    public String makeMove(String move) throws MoveFormatException, GameTokenDoesNotBelongToPlayerException,GeneralUnprotectedException, MoveNotPossibleException{
         // Check if move has a legal format
         if(checkMoveFormat(move)){
             // delegate move to the board
-            this.board.makeMove(move);
+            this.board.makeMove(move, activePlayer);
         } else {
             throw new MoveFormatException("Move had wrong format! Should be like 'a3-c4' ");
         }
@@ -61,10 +61,10 @@ public class GameServer {
     }
     
     public void importBoard (String fenString){
-        this.board.import(fenString);
+        this.board.importBoard(fenString);
     }
     
     public String exportBoard(){
-        this.board.export();
+        return this.board.exportBoard();
     }
 }

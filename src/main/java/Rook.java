@@ -36,6 +36,8 @@ public class Rook extends GameToken{
 
     }
 
+
+
     public String toString(){
         if(this.getOwner() == Player.BLACK  ) {
             return "r";

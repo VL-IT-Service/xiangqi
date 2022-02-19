@@ -15,15 +15,23 @@ public class General extends GameToken{
             throw new MoveNotPossibleException("General can only move one field.");
         }
 
+
+
+    }
+
+    @Override
+    public void checkHitForeignGeneral(int targetRow, int targetCol) throws GeneralUnprotectedException {
+        // check direct view of enemy General
         int directionToEnemy = (this.getOwner() == Player.RED) ? 1 : -1;
-        int testRow = moveEndRow + directionToEnemy;
+
+        int testRow = this.getRow() + directionToEnemy;
         GameToken nextTokenInRow =null;
         while ( 0 <= testRow && testRow <= 9 && nextTokenInRow == null  ){
-                nextTokenInRow= this.board.getField(testRow , moveEndCol);
-                testRow += directionToEnemy;
+            nextTokenInRow= this.board.getField(testRow , targetCol);
+            testRow += directionToEnemy;
         }
         if (nextTokenInRow != null && nextTokenInRow.getClass() == this.getClass() ){
-            throw new MoveNotPossibleException("Enemy's General can see you.");
+            throw new GeneralUnprotectedException("Enemy's General can see you.");
         }
 
     }

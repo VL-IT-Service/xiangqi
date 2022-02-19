@@ -117,47 +117,63 @@ public class GameBoard {
 
     }
 
-    public void makeMove(String move) throws MoveNotLegalException, MoveNotPossibleException {
+    public void makeMove(String move, Player player) throws GameTokenDoesNotBelongToPlayerException, GeneralUnprotectedException, MoveNotPossibleException {
         int moveStartRow = getMoveStartRow(move);
         int moveStartCol = getMoveStartCol(move);
         int moveEndRow = getMoveEndRow(move);
         int moveEndCol = getMoveEndCol(move);
 
         GameToken movingToken = this.getField(moveStartRow,moveStartCol);
+
+        // Is this a GameToken of the active Player
+        if (movingToken.getOwner() != player){
+            throw new GameTokenDoesNotBelongToPlayerException();
+        }
         GameToken targetToken = this.getField(moveEndRow,moveEndCol);
 
         // is the target an enemmy or empty?
-        if(targetToken != null && movingToken.getOwner() == targetToken.getOwner()){
+        if(targetToken != null && player == targetToken.getOwner()){
             throw new MoveNotPossibleException("Target field is blocked by your own token.");
         }
-        // ask the Token to check if move is legal
+
+        // ask the Token to check if move is legal (throws MoveNotPossibleException if not)
         movingToken.checkMoveInDetail(moveStartRow, moveStartCol, moveEndRow, moveEndCol);
 
-        this.checkLegalEndPosition(moveStartRow, moveStartCol, moveEndRow, moveEndCol);
-
-        // Now everything is checked !!
-        // move to the target field
+        // the token might move if own general is not left unprotected
+        // do as if the move is done and try to check
         this.setField(moveStartRow,moveStartCol,null);
         this.setField(moveEndRow, moveEndCol, movingToken);
+        try {
+            this.checkGeneralUnprotectedPosition(player, moveStartRow, moveStartCol, moveEndRow, moveEndCol);
+        } catch (GeneralUnprotectedException e){
+            // undo the move because some GameToken can hit the General
+            this.setField(moveStartRow,moveStartCol,movingToken);
+            this.setField(moveEndRow, moveEndCol, targetToken);
+            // rethrow the exception
+            throw e;
+        }
+
+
 
     }
-    private void checkLegalEndPosition (int moveStartRow, int moveStartCol, int moveEndRow, int moveEndCol) throws MoveNotLegalException {
-        // General's direct view to enemy general
-	GameToken general = getGeneral(fields[moveStartRow][moveStartCol].getOwner());
-	int directionToEnemy = (general.getOwner() == Player.RED) ? 1 : -1;
-        
-	int testCol = getCol(general);
-	int testRow = getRow(general) + directionToEnemy;
-        GameToken nextTokenInRow =null;
-        while ( 0 <= testRow && testRow <= 9 && nextTokenInRow == null  ){
-                nextTokenInRow= getField(testRow , testCol);
-                testRow += directionToEnemy;
-        }
-        if (nextTokenInRow != null && nextTokenInRow instanceof General){
-            throw new MoveNotLegalException("Enemy's General can see you.");
+    private void checkGeneralUnprotectedPosition(Player player, int moveStartRow, int moveStartCol, int moveEndRow, int moveEndCol) throws GeneralUnprotectedException {
+
+	    GameToken general = getGeneral(player);
+        int generalRow = general.getRow();
+        int generalCol = general.getCol();
+
+        for (int row = 0; row < 10; row ++){
+            for (int col = 0; col < 9; col ++){
+                if (this.getField(row,col).getOwner() != player) {
+                    this.getField(row, col).checkHitForeignGeneral(generalRow, generalCol);
+                }
+            }
+
         }
 
-	// todo
+
+
+
 
     }
 

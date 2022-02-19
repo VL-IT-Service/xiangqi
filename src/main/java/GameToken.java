@@ -14,6 +14,21 @@ public abstract class GameToken {
 
     public abstract void checkMoveInDetail(int moveStartRow, int moveStartCol, int moveEndRow, int moveEndCol) throws MoveNotPossibleException;
 
+
+
+    public void checkHitForeignGeneral(int targetRow, int targetCol) throws GeneralUnprotectedException {
+        boolean canHit = true;
+        try {
+            checkMoveInDetail(this.getRow(), this.getCol(), targetRow, targetCol);
+        } catch (MoveNotPossibleException e){
+            canHit = false;
+        }
+        if (canHit){
+            throw new GeneralUnprotectedException("General can be hit by " + this.toString() + "on field" + this.getRow() +"/"+this.getCol());
+        }
+
+    }
+
     protected boolean isInPalace(int moveEndRow, int moveEndCol){
         int palaceRowMin;
         int palaceRowMax;

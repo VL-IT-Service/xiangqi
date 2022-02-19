@@ -16,6 +16,8 @@ public class Advisor extends GameToken{
         }
     }
 
+
+
     public String toString(){
         if(this.getOwner() == Player.BLACK  ) {
             return "a";

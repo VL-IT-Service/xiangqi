@@ -22,6 +22,8 @@ public class Elephant extends GameToken{
 
     }
 
+
+
     public String toString(){
         if(this.getOwner() == Player.BLACK  ) {
             return "e";
