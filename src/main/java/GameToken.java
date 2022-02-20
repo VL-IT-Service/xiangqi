@@ -36,8 +36,8 @@ public abstract class GameToken {
         int palaceColMax = 5;
 
         if (this.getOwner() == Player.RED){
-            palaceRowMin = 1;
-            palaceRowMax = 3;
+            palaceRowMin = 0;
+            palaceRowMax = 2;
         } else {
             palaceRowMin = 7;
             palaceRowMax = 9;

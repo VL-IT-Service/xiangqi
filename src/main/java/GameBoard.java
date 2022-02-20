@@ -125,34 +125,37 @@ public class GameBoard {
 
         GameToken movingToken = this.getField(moveStartRow,moveStartCol);
 
-        // Is this a GameToken of the active Player
-        if (movingToken.getOwner() != player){
-            throw new GameTokenDoesNotBelongToPlayerException();
+        if (movingToken != null) {
+            // Is this a GameToken of the active Player
+            if (movingToken.getOwner() != player) {
+                throw new GameTokenDoesNotBelongToPlayerException("moving GameToken does not belong to active player");
+            }
+            GameToken targetToken = this.getField(moveEndRow, moveEndCol);
+
+            // is the target an enemmy or empty?
+            if (targetToken != null && player == targetToken.getOwner()) {
+                throw new MoveNotPossibleException("Target field is blocked by your own token.");
+            }
+
+            // ask the Token to check if move is legal (throws MoveNotPossibleException if not)
+            movingToken.checkMoveInDetail(moveStartRow, moveStartCol, moveEndRow, moveEndCol);
+
+            // the token might move if own general is not left unprotected
+            // do as if the move is done and try to check
+            this.setField(moveStartRow, moveStartCol, null);
+            this.setField(moveEndRow, moveEndCol, movingToken);
+            try {
+                this.checkGeneralUnprotectedPosition(player, moveStartRow, moveStartCol, moveEndRow, moveEndCol);
+            } catch (GeneralUnprotectedException e) {
+                // undo the move because some GameToken can hit the General
+                this.setField(moveStartRow, moveStartCol, movingToken);
+                this.setField(moveEndRow, moveEndCol, targetToken);
+                // rethrow the exception
+                throw e;
+            }
+        } else {
+            throw new MoveNotPossibleException("The start field of the move is empty.");
         }
-        GameToken targetToken = this.getField(moveEndRow,moveEndCol);
-
-        // is the target an enemmy or empty?
-        if(targetToken != null && player == targetToken.getOwner()){
-            throw new MoveNotPossibleException("Target field is blocked by your own token.");
-        }
-
-        // ask the Token to check if move is legal (throws MoveNotPossibleException if not)
-        movingToken.checkMoveInDetail(moveStartRow, moveStartCol, moveEndRow, moveEndCol);
-
-        // the token might move if own general is not left unprotected
-        // do as if the move is done and try to check
-        this.setField(moveStartRow,moveStartCol,null);
-        this.setField(moveEndRow, moveEndCol, movingToken);
-        try {
-            this.checkGeneralUnprotectedPosition(player, moveStartRow, moveStartCol, moveEndRow, moveEndCol);
-        } catch (GeneralUnprotectedException e){
-            // undo the move because some GameToken can hit the General
-            this.setField(moveStartRow,moveStartCol,movingToken);
-            this.setField(moveEndRow, moveEndCol, targetToken);
-            // rethrow the exception
-            throw e;
-        }
-
 
 
     }
@@ -164,7 +167,7 @@ public class GameBoard {
 
         for (int row = 0; row < 10; row ++){
             for (int col = 0; col < 9; col ++){
-                if (this.getField(row,col).getOwner() != player) {
+                if (this.getField(row,col)!= null && this.getField(row,col).getOwner() != player) {
                     this.getField(row, col).checkHitForeignGeneral(generalRow, generalCol);
                 }
             }
@@ -187,8 +190,8 @@ public class GameBoard {
         int palaceColMax = 5;
 
         if (owner == Player.RED){
-            palaceRowMin = 1;
-            palaceRowMax = 3;
+            palaceRowMin = 0;
+            palaceRowMax = 2;
         } else {
             palaceRowMin = 7;
             palaceRowMax = 9;

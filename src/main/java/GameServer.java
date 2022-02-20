@@ -57,6 +57,7 @@ public class GameServer {
             throw new MoveFormatException("Move had wrong format! Should be like 'a3-c4' ");
         }
         // return the new FenString from the board representing the new situation
+        this.toggleActivePlayer();
         return this.board.exportBoard();
     }
     
