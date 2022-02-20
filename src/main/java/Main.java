@@ -1,20 +1,18 @@
+
 public class Main {
 
     public static void main(String[] args) {
-	// write your code here
+        // write your code here
         GameServer gs = new GameServer();
 
         // print the board
         System.out.println(gs.getBoard().exportBoard());
 
-
-
-
         String move = "b0-c2";
         System.out.println(move);
         try {
             gs.makeMove(move);
-        } catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
         System.out.println(gs.getBoard().exportBoard());
@@ -23,7 +21,7 @@ public class Main {
         System.out.println(move);
         try {
             gs.makeMove(move);
-        } catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
         System.out.println(gs.getBoard().exportBoard());
@@ -32,7 +30,7 @@ public class Main {
         System.out.println(move);
         try {
             gs.makeMove(move);
-        } catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
         System.out.println(gs.getBoard().exportBoard());
@@ -41,7 +39,7 @@ public class Main {
         System.out.println(move);
         try {
             gs.makeMove(move);
-        } catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
         System.out.println(gs.getBoard().exportBoard());
@@ -50,7 +48,7 @@ public class Main {
         System.out.println(move);
         try {
             gs.makeMove(move);
-        } catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
         System.out.println(gs.getBoard().exportBoard());
@@ -59,13 +57,10 @@ public class Main {
         System.out.println(move);
         try {
             gs.makeMove(move);
-        } catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
         System.out.println(gs.getBoard().exportBoard());
-
-
-
 
     }
 }

@@ -1,4 +1,6 @@
+
 public class GameTokenDoesNotBelongToPlayerException extends Exception {
+
     public GameTokenDoesNotBelongToPlayerException() {
     }
 

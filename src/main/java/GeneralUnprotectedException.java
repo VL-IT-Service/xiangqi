@@ -1,4 +1,6 @@
+
 public class GeneralUnprotectedException extends Exception {
+
     public GeneralUnprotectedException() {
     }
 

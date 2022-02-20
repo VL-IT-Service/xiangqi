@@ -1,3 +1,4 @@
+
 public class GameBoard {
 
     private GameToken[][] fields;
@@ -7,11 +8,11 @@ public class GameBoard {
 
     }
 
-    public void importBoard(String fenString){
+    public void importBoard(String fenString) {
         int zeile = 9;
         int spalte = 0;
-        for (int index = 0; index < fenString.length(); ++index){
-            switch (fenString.charAt(index)){
+        for (int index = 0; index < fenString.length(); ++index) {
+            switch (fenString.charAt(index)) {
                 case 'a':
                     fields[zeile][spalte] = new Advisor(Player.BLACK, this);
                     break;
@@ -55,37 +56,33 @@ public class GameBoard {
                     fields[zeile][spalte] = new Soldier(Player.RED, this);
                     break;
                 case '/':
-                    -- zeile;
+                    --zeile;
                     spalte = -1;
                     break;
                 default:
                     int maxNum = Character.getNumericValue(fenString.charAt(index));
-                    for (int num = 0; num < maxNum ; ++num){
-                        fields[zeile][spalte]=null;
+                    for (int num = 0; num < maxNum; ++num) {
+                        fields[zeile][spalte] = null;
                         ++spalte;
                     }
                     --spalte;
-
 
             }
             ++spalte;
 
         }
 
-
-
-
     }
 
-    public String exportBoard(){
+    public String exportBoard() {
         // String to return
         String r = "";
         int freefieldCounter;
 
-        for (int zeile = 9; zeile >= 0; --zeile){
+        for (int zeile = 9; zeile >= 0; --zeile) {
             freefieldCounter = 0;
-            for (int spalte = 0 ; spalte < 9; ++spalte){
-                if (this.fields[zeile][spalte] != null){
+            for (int spalte = 0; spalte < 9; ++spalte) {
+                if (this.fields[zeile][spalte] != null) {
                     // have there just been any free fields?
                     // append the counter to String
                     if (freefieldCounter > 0) {
@@ -97,8 +94,7 @@ public class GameBoard {
                     // append the sign for the GameToken on the field
                     r += fields[zeile][spalte].toString();
 
-
-                }else{
+                } else {
                     ++freefieldCounter;
                 }
 
@@ -113,7 +109,7 @@ public class GameBoard {
             }
 
         }
-    return r;
+        return r;
 
     }
 
@@ -123,7 +119,7 @@ public class GameBoard {
         int moveEndRow = getMoveEndRow(move);
         int moveEndCol = getMoveEndCol(move);
 
-        GameToken movingToken = this.getField(moveStartRow,moveStartCol);
+        GameToken movingToken = this.getField(moveStartRow, moveStartCol);
 
         if (movingToken != null) {
             // Is this a GameToken of the active Player
@@ -157,102 +153,99 @@ public class GameBoard {
             throw new MoveNotPossibleException("The start field of the move is empty.");
         }
 
-
     }
+
     private void checkGeneralUnprotectedPosition(Player player, int moveStartRow, int moveStartCol, int moveEndRow, int moveEndCol) throws GeneralUnprotectedException {
 
-	    GameToken general = getGeneral(player);
+        GameToken general = getGeneral(player);
         int generalRow = general.getRow();
         int generalCol = general.getCol();
 
-        for (int row = 0; row < 10; row ++){
-            for (int col = 0; col < 9; col ++){
-                if (this.getField(row,col)!= null && this.getField(row,col).getOwner() != player) {
+        for (int row = 0; row < 10; row++) {
+            for (int col = 0; col < 9; col++) {
+                if (this.getField(row, col) != null && this.getField(row, col).getOwner() != player) {
                     this.getField(row, col).checkHitForeignGeneral(generalRow, generalCol);
                 }
             }
 
         }
 
-
-
-
-
     }
 
-    private GameToken getGeneral(Player owner){
+    private GameToken getGeneral(Player owner) {
 
-	// General is in the palace, so no need to search all fields
-	GameToken general = null;
-	int palaceRowMin;
+        // General is in the palace, so no need to search all fields
+        GameToken general = null;
+        int palaceRowMin;
         int palaceRowMax;
         int palaceColMin = 3;
         int palaceColMax = 5;
 
-        if (owner == Player.RED){
+        if (owner == Player.RED) {
             palaceRowMin = 0;
             palaceRowMax = 2;
         } else {
             palaceRowMin = 7;
             palaceRowMax = 9;
         }
-        
-	for (int row = palaceRowMin; row <= palaceRowMax; row ++){
-		for (int col = palaceRowMin; col <= palaceColMax; col++){
-			if ( getField(row,col) instanceof General ){
-				general = getField(row,col);
-			} 
-		}
-	}
-	return general;
+
+        for (int row = palaceRowMin; row <= palaceRowMax; row++) {
+            for (int col = palaceRowMin; col <= palaceColMax; col++) {
+                if (getField(row, col) instanceof General) {
+                    general = getField(row, col);
+                }
+            }
+        }
+        return general;
 
     }
 
-    public static int getMoveStartCol(String move){
-        return Character.getNumericValue(move.charAt(0)) - Character.getNumericValue( 'a');
+    public static int getMoveStartCol(String move) {
+        return Character.getNumericValue(move.charAt(0)) - Character.getNumericValue('a');
     }
 
-    public static int getMoveStartRow(String move){
+    public static int getMoveStartRow(String move) {
         return Character.getNumericValue(move.charAt(1));
     }
 
-    public static int getMoveEndCol(String move){
-        return Character.getNumericValue(move.charAt(3)) - Character.getNumericValue( 'a');
+    public static int getMoveEndCol(String move) {
+        return Character.getNumericValue(move.charAt(3)) - Character.getNumericValue('a');
     }
 
-    public static int getMoveEndRow(String move){
+    public static int getMoveEndRow(String move) {
         return Character.getNumericValue(move.charAt(4));
     }
 
-    public GameToken getField(int row, int col){
+    public GameToken getField(int row, int col) {
         return fields[row][col];
     }
-    public void setField(int row, int col, GameToken tk){
-       this.fields[row][col] = tk;
+
+    public void setField(int row, int col, GameToken tk) {
+        this.fields[row][col] = tk;
     }
 
-    public int getRow(GameToken gt){
-	int answer;
-	for (int row =0; row < 10; row ++){
-		for (int col = 0; col < 9; col++){
-			if ( getField(row,col) == gt ){
-				answer = row ;
-			} 
-		}
-	}
-	return answer = 0;
+    public int getRow(GameToken gt) {
+        int answer;
+        for (int row = 0; row < 10; row++) {
+            for (int col = 0; col < 9; col++) {
+                if (getField(row, col) == gt) {
+                    answer = row;
+                }
+            }
+        }
+        return answer = 0;
     }
 
-    public int getCol(GameToken gt){
-	int answer = 0;
-	for (int row =0; row < 10; row ++){
-		for (int col = 0; col < 9; col++){
-			if ( getField(row,col) == gt ){
-				answer = col ;
-			} 
-		}
-	}
-	return answer;
+    public int getCol(GameToken gt) {
+        int answer = 0;
+        for (int row = 0; row < 10; row++) {
+            for (int col = 0; col < 9; col++) {
+                if (getField(row, col) == gt) {
+                    answer = col;
+                }
+            }
+        }
+        return answer;
     }
 
 }

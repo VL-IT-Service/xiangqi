@@ -1,3 +1,4 @@
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -34,23 +35,23 @@ public class GameServer {
         this.activePlayer = Player.RED;
     }
 
-    public void toggleActivePlayer(){
-       activePlayer =  ( activePlayer == Player.RED ) ? Player.BLACK : Player.RED;
+    public void toggleActivePlayer() {
+        activePlayer = (activePlayer == Player.RED) ? Player.BLACK : Player.RED;
     }
 
-    public boolean checkMoveFormat(String move){
-            // check whether the move matches the pattern with RegEx
-            // START Character a-i followed by Digit Minussign a-i Digit END
-            // if this matches, the String has the right length and structure
-            String patternString = "^[a-i]\\d-[a-i]\\d$";
-            Pattern pattern = Pattern.compile(patternString);
-            Matcher matcher = pattern.matcher(move);
-            return matcher.matches();
+    public boolean checkMoveFormat(String move) {
+        // check whether the move matches the pattern with RegEx
+        // START Character a-i followed by Digit Minussign a-i Digit END
+        // if this matches, the String has the right length and structure
+        String patternString = "^[a-i]\\d-[a-i]\\d$";
+        Pattern pattern = Pattern.compile(patternString);
+        Matcher matcher = pattern.matcher(move);
+        return matcher.matches();
     }
 
-    public String makeMove(String move) throws MoveFormatException, GameTokenDoesNotBelongToPlayerException,GeneralUnprotectedException, MoveNotPossibleException{
+    public String makeMove(String move) throws MoveFormatException, GameTokenDoesNotBelongToPlayerException, GeneralUnprotectedException, MoveNotPossibleException {
         // Check if move has a legal format
-        if(checkMoveFormat(move)){
+        if (checkMoveFormat(move)) {
             // delegate move to the board
             this.board.makeMove(move, activePlayer);
         } else {
@@ -60,12 +61,12 @@ public class GameServer {
         this.toggleActivePlayer();
         return this.board.exportBoard();
     }
-    
-    public void importBoard (String fenString){
+
+    public void importBoard(String fenString) {
         this.board.importBoard(fenString);
     }
-    
-    public String exportBoard(){
+
+    public String exportBoard() {
         return this.board.exportBoard();
     }
 }

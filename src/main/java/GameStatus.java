@@ -1,3 +1,4 @@
+
 public enum GameStatus {
     PATT,
     SCHACHMATT,

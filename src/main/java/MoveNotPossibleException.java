@@ -1,4 +1,6 @@
+
 public class MoveNotPossibleException extends Exception {
+
     public MoveNotPossibleException() {
     }
 

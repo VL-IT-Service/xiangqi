@@ -1,4 +1,6 @@
+
 public class MoveFormatException extends Exception {
+
     public MoveFormatException() {
     }
 
