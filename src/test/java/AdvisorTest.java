@@ -49,5 +49,16 @@ public class AdvisorTest {
         assertDoesNotThrow( ()->{gameBoard.getField(9, 5).checkMoveInDetail(9, 5, 8, 4);});
         assertThrows(MoveNotPossibleException.class, ()->{gameBoard.getField(2, 5).checkMoveInDetail(2, 5, 3, 6);});
         assertDoesNotThrow( ()->{gameBoard.getField(2, 5).checkMoveInDetail(2, 5, 1, 4);});
+        assertThrows(MoveNotPossibleException.class, ()->{gameBoard.getField(9, 5).checkMoveInDetail(9, 5, 7, 3);});
     }
+   
+    @Test
+    void AdvisorMovement2in1DirectionTest() throws MoveNotPossibleException {
+        GameBoard gameBoard = new GameBoard();
+        gameBoard.importBoard("3a5/9/9/9/9/9/9/9/9/3A5");
+        //assertThrows(MoveNotPossibleException.class, ()->{gameBoard.getField(0, 3).checkMoveInDetail(0, 3, 2, 3);});
+        assertThrows(MoveNotPossibleException.class, ()->{gameBoard.getField(9, 3).checkMoveInDetail(9, 3, 8, 5);});
+    }   
+    
+    
 }

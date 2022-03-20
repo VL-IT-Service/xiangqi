@@ -48,11 +48,14 @@ public class ElephantTest {
     @Test
     void ElephantMovementTest() throws MoveNotPossibleException {
         GameBoard gameBoard = new GameBoard();
-        gameBoard.importBoard("3g5/9/9/9/e8/E8/9/9/9/4G4");
+        gameBoard.importBoard("3g5/9/9/9/e8/E8/9/9/1S7/E3G4");
         assertThrows(MoveNotPossibleException.class, ()->{gameBoard.getField(4, 0).checkMoveInDetail(4, 0, 6, 2);});
         assertDoesNotThrow( ()->{gameBoard.getField(4, 0).checkMoveInDetail(4, 0, 2, 2);});
         assertThrows(MoveNotPossibleException.class, ()->{gameBoard.getField(5, 0).checkMoveInDetail(5, 0, 4, 2);});
         assertDoesNotThrow( ()->{gameBoard.getField(5, 0).checkMoveInDetail(5, 0, 7, 2);});
+        assertThrows(MoveNotPossibleException.class, ()->{gameBoard.getField(0, 0).checkMoveInDetail(0, 0, 2, 2);});
+        assertThrows(MoveNotPossibleException.class, ()->{gameBoard.getField(0, 0).checkMoveInDetail(0, 0, 2, 4);});
+        assertThrows(MoveNotPossibleException.class, ()->{gameBoard.getField(0, 0).checkMoveInDetail(0, 0, 4, 2);});
         
 
     }
